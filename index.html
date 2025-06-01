@@ -30,24 +30,47 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             color: white;
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            padding-top: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin: 0;
+            letter-spacing: 2px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: calc(100vh - 120px);
         }
 
         .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px 20px;
             width: 100%;
             max-width: 500px;
-            height: 100vh;
-            justify-content: flex-start;
         }
 
         .title {
@@ -56,24 +79,11 @@
             margin-bottom: 25px;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
             animation: glow 2s ease-in-out infinite alternate;
-            margin-top: 10px;
         }
 
         @keyframes glow {
             from { text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
             to { text-shadow: 0 0 14px rgba(255, 255, 255, 0.5); }
-        }
-
-        .score-display {
-            font-size: 2em;
-            margin-bottom: 40px;
-            padding: 15px 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            min-width: 200px;
-            text-align: center;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
         }
 
         .simon-board {
@@ -225,23 +235,49 @@
             }
         }
 
+        /* Footer Styles */
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-email {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-email:hover {
+            color: #4CAF50;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            transform: scale(1.05);
+        }
+
         /* Media Queries per dispositivi mobili */
         @media (max-width: 500px) {
-            .game-container {
-                max-width: 100%;
-                padding: 10px 15px;
+            .header {
+                padding: 12px 15px;
+            }
+            
+            .header-title {
+                font-size: 1.5em;
+                letter-spacing: 1px;
+            }
+            
+            .main-content {
+                padding: 15px;
+                min-height: calc(100vh - 100px);
             }
             
             .title {
                 font-size: 3em;
                 margin-bottom: 20px;
-            }
-            
-            .score-display {
-                font-size: 1.8em;
-                padding: 12px 25px;
-                margin-bottom: 30px;
-                min-width: 180px;
             }
             
             .simon-board {
@@ -261,20 +297,26 @@
                 height: 80px;
                 font-size: 1.6em;
             }
+            
+            .footer {
+                padding: 12px 15px;
+            }
+            
+            .footer-email {
+                font-size: 0.9em;
+            }
         }
 
         @media (max-width: 400px) {
+            .header-title {
+                font-size: 1.3em;
+            }
+            
             .title {
                 font-size: 2.5em;
                 margin-bottom: 15px;
             }
-            
-            .score-display {
-                font-size: 1.6em;
-                padding: 10px 20px;
-                margin-bottom: 25px;
-                min-width: 160px;
-            }
+        
             
             .simon-board {
                 width: 300px;
@@ -292,23 +334,30 @@
                 height: 70px;
                 font-size: 1.4em;
             }
+            
+            .footer-email {
+                font-size: 0.8em;
+            }
         }
 
         @media (max-height: 700px) {
-            body {
-                padding-top: 10px;
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .header-title {
+                font-size: 1.4em;
+            }
+            
+            .main-content {
+                padding: 10px;
             }
             
             .title {
                 font-size: 2.2em;
                 margin-bottom: 10px;
             }
-            
-            .score-display {
-                font-size: 1.4em;
-                margin-bottom: 20px;
-                padding: 8px 16px;
-            }
+        
             
             .simon-board {
                 width: 280px;
@@ -326,18 +375,20 @@
                 height: 65px;
                 font-size: 1.2em;
             }
+            
+            .footer {
+                padding: 10px 15px;
+            }
         }
 
         @media (max-height: 600px) {
+            .header-title {
+                font-size: 1.2em;
+            }
+            
             .title {
                 font-size: 1.8em;
                 margin-bottom: 8px;
-            }
-            
-            .score-display {
-                font-size: 1.2em;
-                margin-bottom: 15px;
-                padding: 6px 12px;
             }
             
             .simon-board {
@@ -356,25 +407,33 @@
                 height: 55px;
                 font-size: 1em;
             }
+            
+            .footer-email {
+                font-size: 0.7em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <h1 class="title">SIMON</h1>
-        
-        <div class="score-display">
-            Punteggio: <span id="score">0</span>
+    <header class="header">
+        <h1 class="header-title">Simon JS</h1>
+    </header>
+
+    <main class="main-content">
+        <div class="game-container">
+            <div class="simon-board">
+                <div class="simon-button green" data-color="green"></div>
+                <div class="simon-button red" data-color="red"></div>
+                <div class="simon-button yellow" data-color="yellow"></div>
+                <div class="simon-button blue" data-color="blue"></div>
+                <button class="center-button waiting" id="startBtn">00</button>
+            </div>
         </div>
-        
-        <div class="simon-board">
-            <div class="simon-button green" data-color="green"></div>
-            <div class="simon-button red" data-color="red"></div>
-            <div class="simon-button yellow" data-color="yellow"></div>
-            <div class="simon-button blue" data-color="blue"></div>
-            <button class="center-button waiting" id="startBtn">00</button>
-        </div>
-    </div>
+    </main>
+
+    <footer class="footer">
+        <a href="mailto:daniele.olmisani@gmail.com" class="footer-email">daniele.olmisani@gmail.com</a>
+    </footer>
 
     <script>
         class SimonGame {
