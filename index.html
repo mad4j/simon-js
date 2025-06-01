@@ -29,28 +29,32 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             color: white;
             overflow: hidden;
             position: fixed;
             width: 100%;
+            padding-top: 20px;
         }
 
         .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px 20px;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
+            height: 100vh;
+            justify-content: flex-start;
         }
 
         .title {
-            font-size: 2.5em;
+            font-size: 3.5em;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             animation: glow 2s ease-in-out infinite alternate;
+            margin-top: 10px;
         }
 
         @keyframes glow {
@@ -59,29 +63,32 @@
         }
 
         .score-display {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-            padding: 10px 20px;
+            font-size: 2em;
+            margin-bottom: 40px;
+            padding: 15px 30px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
+            border-radius: 30px;
             backdrop-filter: blur(10px);
+            min-width: 200px;
+            text-align: center;
         }
 
         .simon-board {
-            width: 300px;
-            height: 300px;
+            width: 380px;
+            height: 380px;
             position: relative;
             margin-bottom: 30px;
+            flex-shrink: 0;
         }
 
         .simon-button {
             position: absolute;
-            width: 140px;
-            height: 140px;
+            width: 170px;
+            height: 170px;
             border: 4px solid #333;
             cursor: pointer;
             transition: all 0.15s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
         }
 
         .simon-button:active {
@@ -89,36 +96,36 @@
         }
 
         .green {
-            top: 10px;
-            left: 10px;
+            top: 15px;
+            left: 15px;
             background: #4CAF50;
             border-top-left-radius: 100%;
         }
 
         .red {
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: #F44336;
             border-top-right-radius: 100%;
         }
 
         .yellow {
-            bottom: 10px;
-            left: 10px;
+            bottom: 15px;
+            left: 15px;
             background: #FFC107;
             border-bottom-left-radius: 100%;
         }
 
         .blue {
-            bottom: 10px;
-            right: 10px;
+            bottom: 15px;
+            right: 15px;
             background: #2196F3;
             border-bottom-right-radius: 100%;
         }
 
         .simon-button.active {
             filter: brightness(1.8);
-            box-shadow: 0 0 30px currentColor;
+            box-shadow: 0 0 40px currentColor;
             transform: scale(1.05);
         }
 
@@ -132,16 +139,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 70px;
-            height: 70px;
-            border: 3px solid #fff;
+            width: 90px;
+            height: 90px;
+            border: 4px solid #fff;
             border-radius: 50%;
             color: #000;
             font-family: 'Orbitron', monospace;
-            font-size: 1.2em;
+            font-size: 1.8em;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 3px 8px rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             background: linear-gradient(145deg, #666, #333);
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
@@ -153,7 +160,7 @@
 
         .center-button:hover {
             transform: translate(-50%, -50%) scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), inset 0 3px 8px rgba(255, 255, 255, 0.4);
         }
 
         .center-button:active {
@@ -172,7 +179,7 @@
             background: linear-gradient(145deg, #4CAF50, #45a049);
             color: #000;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5), inset 0 3px 8px rgba(255, 255, 255, 0.3);
         }
 
         .center-button.showing {
@@ -192,11 +199,11 @@
         @keyframes waiting-pulse {
             0%, 100% { 
                 opacity: 0.8;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 3px 8px rgba(255, 255, 255, 0.3);
             }
             50% { 
                 opacity: 1;
-                box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+                box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3), inset 0 3px 8px rgba(255, 255, 255, 0.5);
             }
         }
 
@@ -211,100 +218,140 @@
             }
             50% { 
                 background: linear-gradient(145deg, #ff1744, #c62828);
-                box-shadow: 0 8px 25px rgba(255, 23, 68, 0.8), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+                box-shadow: 0 10px 30px rgba(255, 23, 68, 0.8), inset 0 3px 8px rgba(255, 255, 255, 0.5);
             }
         }
 
-        .controls {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .control-btn {
-            padding: 12px 24px;
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .control-btn:active {
-            transform: translateY(0);
-        }
-
-        .control-btn.reset {
-            background: linear-gradient(145deg, #F44336, #d32f2f);
-            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
-        }
-
-        .control-btn.reset:hover {
-            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
-        }
-
-
-
-        @media (max-width: 480px) {
-            .simon-board {
-                width: 280px;
-                height: 280px;
-            }
-            
-            .simon-button {
-                width: 130px;
-                height: 130px;
-            }
-            
-            .center-button {
-                width: 60px;
-                height: 60px;
-                font-size: 1em;
+        /* Media Queries per dispositivi mobili */
+        @media (max-width: 500px) {
+            .game-container {
+                max-width: 100%;
+                padding: 10px 15px;
             }
             
             .title {
-                font-size: 2em;
+                font-size: 3em;
+                margin-bottom: 20px;
             }
             
-            .controls {
-                flex-direction: column;
-                width: 100%;
+            .score-display {
+                font-size: 1.8em;
+                padding: 12px 25px;
+                margin-bottom: 30px;
+                min-width: 180px;
             }
             
-            .control-btn {
-                width: 100%;
+            .simon-board {
+                width: 340px;
+                height: 340px;
+                margin-bottom: 20px;
+            }
+            
+            .simon-button {
+                width: 150px;
+                height: 150px;
+                border: 5px solid #333;
+            }
+            
+            .center-button {
+                width: 80px;
+                height: 80px;
+                font-size: 1.6em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .title {
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+            
+            .score-display {
+                font-size: 1.6em;
+                padding: 10px 20px;
+                margin-bottom: 25px;
+                min-width: 160px;
+            }
+            
+            .simon-board {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .simon-button {
+                width: 135px;
+                height: 135px;
+                border: 4px solid #333;
+            }
+            
+            .center-button {
+                width: 70px;
+                height: 70px;
+                font-size: 1.4em;
             }
         }
 
         @media (max-height: 700px) {
+            body {
+                padding-top: 10px;
+            }
+            
+            .title {
+                font-size: 2.2em;
+                margin-bottom: 10px;
+            }
+            
+            .score-display {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+                padding: 8px 16px;
+            }
+            
+            .simon-board {
+                width: 280px;
+                height: 280px;
+                margin-bottom: 15px;
+            }
+            
+            .simon-button {
+                width: 125px;
+                height: 125px;
+            }
+            
+            .center-button {
+                width: 65px;
+                height: 65px;
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-height: 600px) {
             .title {
                 font-size: 1.8em;
+                margin-bottom: 8px;
+            }
+            
+            .score-display {
+                font-size: 1.2em;
                 margin-bottom: 15px;
+                padding: 6px 12px;
             }
             
             .simon-board {
                 width: 250px;
                 height: 250px;
+                margin-bottom: 10px;
             }
             
             .simon-button {
-                width: 115px;
-                height: 115px;
+                width: 110px;
+                height: 110px;
             }
             
             .center-button {
                 width: 55px;
                 height: 55px;
-                font-size: 0.9em;
+                font-size: 1em;
             }
         }
     </style>
@@ -324,8 +371,6 @@
             <div class="simon-button blue" data-color="blue"></div>
             <button class="center-button waiting" id="startBtn">00</button>
         </div>
-        
-
     </div>
 
     <script>
