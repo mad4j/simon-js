@@ -567,7 +567,7 @@
                     button.addEventListener('touchstart', (e) => {
                         e.preventDefault();
                         this.handleButtonClick(e);
-                    });
+                    }, { passive: false });
                 });
                 
                 // Previeni il comportamento di default del touch - modificato per non interferire con lo scroll
