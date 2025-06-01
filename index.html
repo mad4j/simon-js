@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Simon Says - Gioco PWA</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNpbW9uIFNheXMgLSBHaW9jbyIsCiAgInNob3J0X25hbWUiOiAiU2ltb24iLAogICJkZXNjcmlwdGlvbiI6ICJJbCBjbGFzc2ljbyBnaW9jbyBkaSBtZW1vcmlhIFNpbW9uIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJ0aGVtZV9jb2xvciI6ICIjMWExYTJlIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMWExYTJlIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRJNElpQm9aV2xuYUhROUlqRXlPQ0lpSUdobGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEdOcGNtTnNaU0JqZUQwaU5qUWlJR041UFNJMk5DSWlJSEk5SWpVNElpQm1hV3hzUFNJak0yVTBZbVVpTHo0OFkyVnVkR1Z5UGp4MFpYaDBJSGc5SWpZMElpQjVQU0kyT0NJaVptbHNiRDBpSTJabVptWm1aaUlnWm05dWRDMXphWHBsUFNJeE5pSWdabTl1ZEMxbVlXMXBiSGs5SW0xdmJtOXpjR0ZqWlNJK1UwaE5UMDQ4TDNSbGVIUStQQzlqWlc1MFpYSStQQzl6ZG1jKyIsCiAgICAgICJzaXplcyI6ICIxMjh4MTI4IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+        }
+
+        .score-display {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .simon-board {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .simon-button {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border: 4px solid #333;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .simon-button:active {
+            transform: scale(0.95);
+        }
+
+        .green {
+            top: 10px;
+            left: 10px;
+            background: #4CAF50;
+            border-top-left-radius: 100%;
+        }
+
+        .red {
+            top: 10px;
+            right: 10px;
+            background: #F44336;
+            border-top-right-radius: 100%;
+        }
+
+        .yellow {
+            bottom: 10px;
+            left: 10px;
+            background: #FFC107;
+            border-bottom-left-radius: 100%;
+        }
+
+        .blue {
+            bottom: 10px;
+            right: 10px;
+            background: #2196F3;
+            border-bottom-right-radius: 100%;
+        }
+
+        .simon-button.active {
+            filter: brightness(1.8);
+            box-shadow: 0 0 30px currentColor;
+            transform: scale(1.05);
+        }
+
+        .simon-button.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .center-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .center-button:hover {
+            background: #555;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        .center-button:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            padding: 12px 24px;
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.reset {
+            background: linear-gradient(145deg, #F44336, #d32f2f);
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+
+        .control-btn.reset:hover {
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        .status {
+            font-size: 1.2em;
+            text-align: center;
+            min-height: 30px;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .game-over {
+            color: #ff6b6b;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .success {
+            color: #4CAF50;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 480px) {
+            .simon-board {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .simon-button {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .control-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .title {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+            }
+            
+            .simon-board {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .simon-button {
+                width: 115px;
+                height: 115px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="title">SIMON</h1>
+        
+        <div class="score-display">
+            Punteggio: <span id="score">0</span>
+        </div>
+        
+        <div class="simon-board">
+            <div class="simon-button green" data-color="green"></div>
+            <div class="simon-button red" data-color="red"></div>
+            <div class="simon-button yellow" data-color="yellow"></div>
+            <div class="simon-button blue" data-color="blue"></div>
+            <button class="center-button" id="startBtn"></button>
+        </div>
+        
+
+        
+        <div class="status" id="status">Premi START per iniziare!</div>
+    </div>
+
+    <script>
+        class SimonGame {
+            constructor() {
+                this.sequence = [];
+                this.playerSequence = [];
+                this.score = 0;
+                this.isPlaying = false;
+                this.isShowingSequence = false;
+                this.currentStep = 0;
+                this.sounds = {};
+                
+                this.colors = ['green', 'red', 'yellow', 'blue'];
+                this.frequencies = {
+                    green: 329.63,  // E4
+                    red: 261.63,    // C4
+                    yellow: 220,    // A3
+                    blue: 196       // G3
+                };
+                
+                this.initializeElements();
+                this.initializeSounds();
+                this.bindEvents();
+                this.registerServiceWorker();
+            }
+            
+            initializeElements() {
+                this.buttons = document.querySelectorAll('.simon-button');
+                this.startBtn = document.getElementById('startBtn');
+                this.newGameBtn = document.getElementById('newGameBtn');
+                this.resetBtn = document.getElementById('resetBtn');
+                this.scoreDisplay = document.getElementById('score');
+                this.statusDisplay = document.getElementById('status');
+            }
+            
+            initializeSounds() {
+                // Crea suoni sintetici usando Web Audio API
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            playSound(color, duration = 300) {
+                if (!this.audioContext) return;
+                
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = this.frequencies[color];
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
+                
+                oscillator.start(this.audioContext.currentTime);
+                oscillator.stop(this.audioContext.currentTime + duration / 1000);
+            }
+            
+            bindEvents() {
+                this.startBtn.addEventListener('click', () => this.restartGame());
+                
+                this.buttons.forEach(button => {
+                    button.addEventListener('click', (e) => this.handleButtonClick(e));
+                    button.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        this.handleButtonClick(e);
+                    });
+                });
+                
+                // Previeni il comportamento di default del touch
+                document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+            }
+            
+            async registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        // Service Worker inline per PWA
+                        const swCode = `
+                            const CACHE_NAME = 'simon-game-v1';
+                            const urlsToCache = [];
+                            
+                            self.addEventListener('install', (event) => {
+                                event.waitUntil(
+                                    caches.open(CACHE_NAME)
+                                        .then((cache) => cache.addAll(urlsToCache))
+                                );
+                            });
+                            
+                            self.addEventListener('fetch', (event) => {
+                                event.respondWith(
+                                    caches.match(event.request)
+                                        .then((response) => response || fetch(event.request))
+                                );
+                            });
+                        `;
+                        
+                        const blob = new Blob([swCode], { type: 'application/javascript' });
+                        const swUrl = URL.createObjectURL(blob);
+                        
+                        await navigator.serviceWorker.register(swUrl);
+                        console.log('Service Worker registrato con successo');
+                    } catch (error) {
+                        console.log('Registrazione Service Worker fallita:', error);
+                    }
+                }
+            }
+            
+            restartGame() {
+                this.sequence = [];
+                this.playerSequence = [];
+                this.score = 0;
+                this.currentStep = 0;
+                this.isPlaying = true;
+                this.isShowingSequence = false;
+                
+                this.updateScore();
+                this.updateStatus('Memorizza la sequenza...');
+                this.addToSequence();
+            }
+            
+            addToSequence() {
+                const randomColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                this.sequence.push(randomColor);
+                this.playerSequence = [];
+                this.currentStep = 0;
+                this.showSequence();
+            }
+            
+            async showSequence() {
+                this.isShowingSequence = true;
+                this.disableButtons();
+                
+                await this.delay(500);
+                
+                for (let i = 0; i < this.sequence.length; i++) {
+                    await this.delay(200);
+                    this.highlightButton(this.sequence[i]);
+                    await this.delay(600);
+                }
+                
+                this.isShowingSequence = false;
+                this.enableButtons();
+                this.updateStatus('Ripeti la sequenza!');
+            }
+            
+            highlightButton(color) {
+                const button = document.querySelector(`[data-color="${color}"]`);
+                button.classList.add('active');
+                this.playSound(color);
+                
+                setTimeout(() => {
+                    button.classList.remove('active');
+                }, 400);
+            }
+            
+            handleButtonClick(e) {
+                if (!this.isPlaying || this.isShowingSequence) return;
+                
+                // Riprendi AudioContext se sospeso (richiesto da alcuni browser)
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume();
+                }
+                
+                const color = e.target.dataset.color;
+                this.playerSequence.push(color);
+                this.highlightButton(color);
+                
+                if (this.playerSequence[this.currentStep] !== this.sequence[this.currentStep]) {
+                    this.gameOver();
+                    return;
+                }
+                
+                this.currentStep++;
+                
+                if (this.currentStep === this.sequence.length) {
+                    // Sequenza completata correttamente
+                    this.score++;
+                    this.updateScore();
+                    this.updateStatus(`Ottimo! Livello ${this.score + 1}`, 'success');
+                    
+                    setTimeout(() => {
+                        this.addToSequence();
+                    }, 1000);
+                }
+            }
+            
+            gameOver() {
+                this.isPlaying = false;
+                this.playErrorSound();
+                this.updateStatus(`Game Over! Punteggio finale: ${this.score}`, 'game-over');
+                this.disableButtons();
+                
+                // Animazione di game over
+                this.buttons.forEach(button => {
+                    button.style.filter = 'brightness(0.5)';
+                    setTimeout(() => {
+                        button.style.filter = '';
+                    }, 500);
+                });
+            }
+            
+            playErrorSound() {
+                if (!this.audioContext) return;
+                
+                const oscillator = this.audioContext.createOscillator();
+                const gainNode = this.audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(this.audioContext.destination);
+                
+                oscillator.frequency.value = 150;
+                oscillator.type = 'sawtooth';
+                
+                gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
+                
+                oscillator.start(this.audioContext.currentTime);
+                oscillator.stop(this.audioContext.currentTime + 0.5);
+            }
+            
+            updateScore() {
+                this.scoreDisplay.textContent = this.score;
+            }
+            
+            updateStatus(message, className = '') {
+                this.statusDisplay.textContent = message;
+                this.statusDisplay.className = 'status ' + className;
+            }
+            
+            enableButtons() {
+                this.buttons.forEach(button => {
+                    button.classList.remove('disabled');
+                });
+            }
+            
+            disableButtons() {
+                this.buttons.forEach(button => {
+                    button.classList.add('disabled');
+                });
+            }
+            
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Inizializza il gioco quando la pagina è caricata
+        document.addEventListener('DOMContentLoaded', () => {
+            const game = new SimonGame();
+        });
+        
+        // Gestione della visualizzazione a schermo intero per PWA
+        if (window.matchMedia('(display-mode: standalone)').matches) {
+            console.log('App in modalità PWA');
+        }
+        
+        // Previeni il refresh della pagina con pull-to-refresh su mobile
+        document.body.style.overscrollBehavior = 'none';
+    </script>
+</body>
+</html>
