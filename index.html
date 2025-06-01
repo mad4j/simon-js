@@ -52,14 +52,14 @@
             font-size: 3.5em;
             font-weight: bold;
             margin-bottom: 25px;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
             animation: glow 2s ease-in-out infinite alternate;
             margin-top: 10px;
         }
 
         @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
-            to { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+            from { text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
+            to { text-shadow: 0 0 14px rgba(255, 255, 255, 0.5); }
         }
 
         .score-display {
@@ -71,6 +71,7 @@
             backdrop-filter: blur(10px);
             min-width: 200px;
             text-align: center;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
         }
 
         .simon-board {
@@ -151,7 +152,7 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 3px 8px rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             background: linear-gradient(145deg, #666, #333);
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -171,28 +172,28 @@
         .center-button.waiting {
             background: linear-gradient(145deg, #555, #333);
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
             animation: waiting-pulse 2s ease-in-out infinite;
         }
 
         .center-button.playing {
             background: linear-gradient(145deg, #4CAF50, #45a049);
             color: #000;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
             box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5), inset 0 3px 8px rgba(255, 255, 255, 0.3);
         }
 
         .center-button.showing {
             background: linear-gradient(145deg, #FF9800, #F57C00);
             color: #000;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
             animation: showing-blink 1s ease-in-out infinite;
         }
 
         .center-button.game-over {
             background: linear-gradient(145deg, #F44336, #d32f2f);
             color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.18);
             animation: error-flash 0.5s ease-in-out 3;
         }
 
