@@ -467,30 +467,7 @@
             async registerServiceWorker() {
                 if ('serviceWorker' in navigator) {
                     try {
-                        // Service Worker inline per PWA
-                        const swCode = `
-                            const CACHE_NAME = 'simon-game-v1';
-                            const urlsToCache = [];
-                            
-                            self.addEventListener('install', (event) => {
-                                event.waitUntil(
-                                    caches.open(CACHE_NAME)
-                                        .then((cache) => cache.addAll(urlsToCache))
-                                );
-                            });
-                            
-                            self.addEventListener('fetch', (event) => {
-                                event.respondWith(
-                                    caches.match(event.request)
-                                        .then((response) => response || fetch(event.request))
-                                );
-                            });
-                        `;
-                        
-                        const blob = new Blob([swCode], { type: 'application/javascript' });
-                        const swUrl = URL.createObjectURL(blob);
-                        
-                        await navigator.serviceWorker.register(swUrl);
+                        await navigator.serviceWorker.register('sw.js');
                         console.log('Service Worker registrato con successo');
                     } catch (error) {
                         console.log('Registrazione Service Worker fallita:', error);
