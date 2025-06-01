@@ -27,19 +27,21 @@
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #f3e8ff 0%, #faf0ff 50%, #f8f0ff 100%);
+            color: #4a148c; /* Testo viola scuro */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            color: white;
             overflow-x: hidden;
             position: relative;
         }
 
         /* Header Styles */
         .header {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.7); /* Più opaco per pastello */
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bordo scuro invece di bianco */
+            color: #333; /* Testo scuro */
             padding: 15px 20px;
             text-align: center;
             position: sticky;
@@ -76,8 +78,9 @@
         .title {
             font-size: 3.5em;
             font-weight: bold;
+            color: #333;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Ombra leggera scura */
             margin-bottom: 25px;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
             animation: glow 2s ease-in-out infinite alternate;
         }
 
@@ -237,25 +240,26 @@
 
         /* Footer Styles */
         .footer {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.7); /* Più opaco per pastello */
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bordo scuro invece di bianco */
+            color: #333; /* Testo scuro */
             padding: 15px 20px;
             text-align: center;
             margin-top: auto;
         }
 
         .footer-email {
-            color: #ffffff;
+            color: #333;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
             text-decoration: none;
             font-size: 1em;
             transition: all 0.3s ease;
-            text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
         }
 
         .footer-email:hover {
-            color: #4CAF50;
-            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            color: #4CAF50; /* Mantieni il verde per l'hover */
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
             transform: scale(1.05);
         }
 
