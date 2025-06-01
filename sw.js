@@ -1,5 +1,11 @@
 const CACHE_NAME = 'simon-game-v1';
-const urlsToCache = [];
+const urlsToCache = [
+    "./",
+    "./index.html",
+    "./manifest.json",
+    "./favicon.ico",
+    "./icon-512x512.png",
+];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
