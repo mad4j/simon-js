@@ -545,7 +545,6 @@
                 this.isShowingSequence = false;
                 
                 this.setGameState('playing');
-                this.updateScore();
                 this.addToSequence();
             }
             
@@ -608,7 +607,6 @@
                 if (this.currentStep === this.sequence.length) {
                     // Sequenza completata correttamente
                     this.score++;
-                    this.updateScore();
                     
                     setTimeout(() => {
                         this.addToSequence();
@@ -653,10 +651,6 @@
                 
                 oscillator.start(this.audioContext.currentTime);
                 oscillator.stop(this.audioContext.currentTime + 0.5);
-            }
-            
-            updateScore() {
-                this.scoreDisplay.textContent = this.score;
             }
             
             enableButtons() {
