@@ -1,16 +1,22 @@
 {
-  "name": "Simon Says - Gioco",
-  "short_name": "Simon",
-  "description": "Il classico gioco di memoria Simon",
-  "start_url": "/",
-  "display": "standalone",
-  "theme_color": "#1a1a2e",
-  "background_color": "#1a1a2e",
-  "icons": [
-    {
-      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDEyOCAxMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PC9zdmc+",
-      "sizes": "128x128",
-      "type": "image/svg+xml"
-    }
-  ]
+    "name": "Simon JS",
+    "short_name": "Simon JS",
+    "description": "Il classico gioco di memoria Simon",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "theme_color": "#1a1a2e",
+    "background_color": "#1a1a2e",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "watermark-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "categories": [
+        "games",
+        "memory"
+    ]
 }
