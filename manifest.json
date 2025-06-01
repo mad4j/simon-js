@@ -3,7 +3,7 @@
     "short_name": "Simon JS",
     "description": "Il classico gioco di memoria Simon",
     "start_url": "./index.html",
-    "display": "standalone",
+    "display": "fullscreen",
     "theme_color": "#1a1a2e",
     "background_color": "#1a1a2e",
     "orientation": "portrait",
