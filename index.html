@@ -10,7 +10,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Font per display digitale -->
-    <link href="https://fonts.googleapis.com/css2?family=Chivo Mono:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;700;900&display=swap" rel="stylesheet">
     
     <link rel="icon" type="image/png" href="favicon.png">
     
@@ -26,10 +26,10 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             background: linear-gradient(135deg, #f3e8ff 0%, #faf0ff 50%, #f8f0ff 100%);
-            color: #4a148c; /* Testo viola scuro */
+            color: #4a148c;
             min-height: 100vh;
+            min-height: 100dvh; /* Supporto per dynamic viewport height */
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
@@ -38,15 +38,16 @@
 
         /* Header Styles */
         .header {
-            background: rgba(255, 255, 255, 0.7); /* Più opaco per pastello */
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bordo scuro invece di bianco */
-            color: #333; /* Testo scuro */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
             padding: 15px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
+            flex-shrink: 0; /* Impedisce al header di ridursi */
         }
 
         .header-title {
@@ -64,7 +65,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            min-height: calc(100vh - 120px);
+            min-height: 0; /* Importante: permette al contenuto di ridursi */
         }
 
         .game-container {
@@ -79,7 +80,7 @@
             font-size: 3.5em;
             font-weight: bold;
             color: #333;
-            text-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Ombra leggera scura */
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
             margin-bottom: 25px;
             animation: glow 2s ease-in-out infinite alternate;
         }
@@ -240,13 +241,14 @@
 
         /* Footer Styles */
         .footer {
-            background: rgba(255, 255, 255, 0.7); /* Più opaco per pastello */
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Bordo scuro invece di bianco */
-            color: #333; /* Testo scuro */
+            border-top: 1px solid rgba(0, 0, 0, 0.1); /* Cambiato da border-bottom a border-top */
+            color: #333;
             padding: 15px 20px;
             text-align: center;
-            margin-top: auto;
+            flex-shrink: 0; /* Impedisce al footer di ridursi */
+            margin-top: auto; /* Spinge il footer in basso */
         }
 
         .footer-email {
@@ -258,7 +260,7 @@
         }
 
         .footer-email:hover {
-            color: #4CAF50; /* Mantieni il verde per l'hover */
+            color: #4CAF50;
             text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
             transform: scale(1.05);
         }
@@ -276,7 +278,6 @@
             
             .main-content {
                 padding: 15px;
-                min-height: calc(100vh - 100px);
             }
             
             .title {
@@ -321,7 +322,6 @@
                 margin-bottom: 15px;
             }
         
-            
             .simon-board {
                 width: 300px;
                 height: 300px;
@@ -344,9 +344,10 @@
             }
         }
 
+        /* Media query per schermi bassi - modificata per garantire visibilità del footer */
         @media (max-height: 700px) {
             .header {
-                padding: 10px 15px;
+                padding: 8px 15px;
             }
             
             .header-title {
@@ -354,19 +355,18 @@
             }
             
             .main-content {
-                padding: 10px;
+                padding: 8px;
             }
             
             .title {
                 font-size: 2.2em;
-                margin-bottom: 10px;
+                margin-bottom: 8px;
             }
         
-            
             .simon-board {
                 width: 280px;
                 height: 280px;
-                margin-bottom: 15px;
+                margin-bottom: 10px;
             }
             
             .simon-button {
@@ -381,39 +381,98 @@
             }
             
             .footer {
-                padding: 10px 15px;
+                padding: 8px 15px;
             }
         }
 
         @media (max-height: 600px) {
+            .header {
+                padding: 6px 15px;
+            }
+            
             .header-title {
                 font-size: 1.2em;
             }
             
+            .main-content {
+                padding: 6px;
+            }
+            
             .title {
                 font-size: 1.8em;
-                margin-bottom: 8px;
+                margin-bottom: 6px;
             }
             
             .simon-board {
-                width: 250px;
-                height: 250px;
-                margin-bottom: 10px;
+                width: 240px;
+                height: 240px;
+                margin-bottom: 8px;
             }
             
             .simon-button {
-                width: 110px;
-                height: 110px;
+                width: 105px;
+                height: 105px;
             }
             
             .center-button {
-                width: 55px;
-                height: 55px;
+                width: 50px;
+                height: 50px;
                 font-size: 1em;
+            }
+            
+            .footer {
+                padding: 6px 15px;
             }
             
             .footer-email {
                 font-size: 0.7em;
+            }
+        }
+
+        /* Media query specifica per dispositivi molto bassi */
+        @media (max-height: 500px) {
+            .header {
+                padding: 4px 10px;
+            }
+            
+            .header-title {
+                font-size: 1em;
+            }
+            
+            .main-content {
+                padding: 4px;
+            }
+            
+            .title {
+                font-size: 1.4em;
+                margin-bottom: 4px;
+            }
+            
+            .simon-board {
+                width: 200px;
+                height: 200px;
+                margin-bottom: 6px;
+            }
+            
+            .simon-button {
+                width: 85px;
+                height: 85px;
+                border: 3px solid #333;
+            }
+            
+            .center-button {
+                width: 40px;
+                height: 40px;
+                font-size: 0.8em;
+                border: 2px solid #fff;
+            }
+            
+            .footer {
+                padding: 4px 10px;
+            }
+            
+            .footer-email {
+                font-size: 0.6em;
             }
         }
     </style>
@@ -449,14 +508,14 @@
                 this.isShowingSequence = false;
                 this.currentStep = 0;
                 this.sounds = {};
-                this.gameState = 'waiting'; // waiting, playing, showing, game-over
+                this.gameState = 'waiting';
                 
                 this.colors = ['green', 'red', 'yellow', 'blue'];
                 this.frequencies = {
-                    green: 329.63,  // E4
-                    red: 261.63,    // C4
-                    yellow: 220,    // A3
-                    blue: 196       // G3
+                    green: 329.63,
+                    red: 261.63,
+                    yellow: 220,
+                    blue: 196
                 };
                 
                 this.initializeElements();
@@ -473,7 +532,6 @@
             }
             
             initializeSounds() {
-                // Crea suoni sintetici usando Web Audio API
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
             
@@ -507,8 +565,12 @@
                     });
                 });
                 
-                // Previeni il comportamento di default del touch
-                document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+                // Previeni il comportamento di default del touch - modificato per non interferire con lo scroll
+                document.addEventListener('touchmove', (e) => {
+                    if (e.target.closest('.simon-button') || e.target.closest('.center-button')) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
             }
             
             updateCenterButton() {
@@ -517,10 +579,7 @@
                 
                 this.startBtn.textContent = moveNumber;
                 
-                // Rimuovi tutte le classi di stato
                 this.startBtn.classList.remove('waiting', 'playing', 'showing', 'game-over');
-                
-                // Aggiungi la classe appropriata
                 this.startBtn.classList.add(this.gameState);
             }
             
@@ -592,7 +651,6 @@
             handleButtonClick(e) {
                 if (!this.isPlaying || this.isShowingSequence) return;
                 
-                // Riprendi AudioContext se sospeso (richiesto da alcuni browser)
                 if (this.audioContext.state === 'suspended') {
                     this.audioContext.resume();
                 }
@@ -609,7 +667,6 @@
                 this.currentStep++;
                 
                 if (this.currentStep === this.sequence.length) {
-                    // Sequenza completata correttamente
                     this.score++;
                     
                     setTimeout(() => {
@@ -624,7 +681,6 @@
                 this.playErrorSound();
                 this.disableButtons();
                 
-                // Animazione di game over
                 this.buttons.forEach(button => {
                     button.style.filter = 'brightness(0.5)';
                     setTimeout(() => {
@@ -632,7 +688,6 @@
                     }, 500);
                 });
                 
-                // Torna allo stato waiting dopo 3 secondi
                 setTimeout(() => {
                     this.setGameState('waiting');
                 }, 3000);
@@ -674,18 +729,16 @@
             }
         }
         
-        // Inizializza il gioco quando la pagina è caricata
         document.addEventListener('DOMContentLoaded', () => {
             const game = new SimonGame();
         });
         
-        // Gestione della visualizzazione a schermo intero per PWA
         if (window.matchMedia('(display-mode: standalone)').matches) {
             console.log('App in modalità PWA');
         }
         
-        // Previeni il refresh della pagina con pull-to-refresh su mobile
-        document.body.style.overscrollBehavior = 'none';
+        // Modificato per permettere lo scroll naturale
+        document.body.style.overscrollBehavior = 'contain';
     </script>
 </body>
 </html>
