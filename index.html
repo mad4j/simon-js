@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1a2e">
-    <title>Simon Says - Gioco PWA</title>
+    <title>Simon JS</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlNpbW9uIFNheXMgLSBHaW9jbyIsCiAgInNob3J0X25hbWUiOiAiU2ltb24iLAogICJkZXNjcmlwdGlvbiI6ICJJbCBjbGFzc2ljbyBnaW9jbyBkaSBtZW1vcmlhIFNpbW9uIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJ0aGVtZV9jb2xvciI6ICIjMWExYTJlIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMWExYTJlIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTVRJNElpQm9aV2xuYUhROUlqRXlPQ0lpSUdobGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrUEdOcGNtTnNaU0JqZUQwaU5qUWlJR041UFNJMk5DSWlJSEk5SWpVNElpQm1hV3hzUFNJak0yVTBZbVVpTHo0OFkyVnVkR1Z5UGp4MFpYaDBJSGc5SWpZMElpQjVQU0kyT0NJaVptbHNiRDBpSTJabVptWm1aaUlnWm05dWRDMXphWHBsUFNJeE5pSWdabTl1ZEMxbVlXMXBiSGs5SW0xdmJtOXpjR0ZqWlNJK1UwaE5UMDQ4TDNSbGVIUStQQzlqWlc1MFpYSStQQzl6ZG1jKyIsCiAgICAgICJzaXplcyI6ICIxMjh4MTI4IiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0KICBdCn0=">
+    
+    <!-- Font per display digitale -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -129,26 +132,87 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: #333;
-            border: none;
+            width: 70px;
+            height: 70px;
+            border: 3px solid #fff;
             border-radius: 50%;
-            color: white;
-            font-size: 1em;
-            font-weight: bold;
+            color: #000;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #666, #333);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: -2px;
         }
 
         .center-button:hover {
-            background: #555;
             transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), inset 0 2px 5px rgba(255, 255, 255, 0.4);
         }
 
         .center-button:active {
             transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        /* Stati del pulsante centrale */
+        .center-button.waiting {
+            background: linear-gradient(145deg, #555, #333);
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: waiting-pulse 2s ease-in-out infinite;
+        }
+
+        .center-button.playing {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+        }
+
+        .center-button.showing {
+            background: linear-gradient(145deg, #FF9800, #F57C00);
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            animation: showing-blink 1s ease-in-out infinite;
+        }
+
+        .center-button.game-over {
+            background: linear-gradient(145deg, #F44336, #d32f2f);
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: error-flash 0.5s ease-in-out 3;
+        }
+
+        @keyframes waiting-pulse {
+            0%, 100% { 
+                opacity: 0.8;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 5px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                opacity: 1;
+                box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        @keyframes showing-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes error-flash {
+            0%, 100% { 
+                background: linear-gradient(145deg, #F44336, #d32f2f);
+            }
+            50% { 
+                background: linear-gradient(145deg, #ff1744, #c62828);
+                box-shadow: 0 8px 25px rgba(255, 23, 68, 0.8), inset 0 2px 5px rgba(255, 255, 255, 0.5);
+            }
         }
 
         .controls {
@@ -188,38 +252,7 @@
             box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
         }
 
-        .status {
-            font-size: 1.2em;
-            text-align: center;
-            min-height: 30px;
-            padding: 10px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            width: 100%;
-            max-width: 300px;
-        }
 
-        .game-over {
-            color: #ff6b6b;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .success {
-            color: #4CAF50;
-            animation: pulse 0.5s ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
 
         @media (max-width: 480px) {
             .simon-board {
@@ -230,6 +263,12 @@
             .simon-button {
                 width: 130px;
                 height: 130px;
+            }
+            
+            .center-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1em;
             }
             
             .title {
@@ -261,6 +300,12 @@
                 width: 115px;
                 height: 115px;
             }
+            
+            .center-button {
+                width: 55px;
+                height: 55px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -277,12 +322,10 @@
             <div class="simon-button red" data-color="red"></div>
             <div class="simon-button yellow" data-color="yellow"></div>
             <div class="simon-button blue" data-color="blue"></div>
-            <button class="center-button" id="startBtn"></button>
+            <button class="center-button waiting" id="startBtn">00</button>
         </div>
         
 
-        
-        <div class="status" id="status">Premi START per iniziare!</div>
     </div>
 
     <script>
@@ -295,6 +338,7 @@
                 this.isShowingSequence = false;
                 this.currentStep = 0;
                 this.sounds = {};
+                this.gameState = 'waiting'; // waiting, playing, showing, game-over
                 
                 this.colors = ['green', 'red', 'yellow', 'blue'];
                 this.frequencies = {
@@ -308,15 +352,13 @@
                 this.initializeSounds();
                 this.bindEvents();
                 this.registerServiceWorker();
+                this.updateCenterButton();
             }
             
             initializeElements() {
                 this.buttons = document.querySelectorAll('.simon-button');
                 this.startBtn = document.getElementById('startBtn');
-                this.newGameBtn = document.getElementById('newGameBtn');
-                this.resetBtn = document.getElementById('resetBtn');
                 this.scoreDisplay = document.getElementById('score');
-                this.statusDisplay = document.getElementById('status');
             }
             
             initializeSounds() {
@@ -356,6 +398,24 @@
                 
                 // Previeni il comportamento di default del touch
                 document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+            }
+            
+            updateCenterButton() {
+                const currentMoves = this.sequence.length;
+                const moveNumber = currentMoves.toString().padStart(2, '0');
+                
+                this.startBtn.textContent = moveNumber;
+                
+                // Rimuovi tutte le classi di stato
+                this.startBtn.classList.remove('waiting', 'playing', 'showing', 'game-over');
+                
+                // Aggiungi la classe appropriata
+                this.startBtn.classList.add(this.gameState);
+            }
+            
+            setGameState(state) {
+                this.gameState = state;
+                this.updateCenterButton();
             }
             
             async registerServiceWorker() {
@@ -400,8 +460,8 @@
                 this.isPlaying = true;
                 this.isShowingSequence = false;
                 
+                this.setGameState('playing');
                 this.updateScore();
-                this.updateStatus('Memorizza la sequenza...');
                 this.addToSequence();
             }
             
@@ -410,11 +470,13 @@
                 this.sequence.push(randomColor);
                 this.playerSequence = [];
                 this.currentStep = 0;
+                this.updateCenterButton();
                 this.showSequence();
             }
             
             async showSequence() {
                 this.isShowingSequence = true;
+                this.setGameState('showing');
                 this.disableButtons();
                 
                 await this.delay(500);
@@ -426,8 +488,8 @@
                 }
                 
                 this.isShowingSequence = false;
+                this.setGameState('playing');
                 this.enableButtons();
-                this.updateStatus('Ripeti la sequenza!');
             }
             
             highlightButton(color) {
@@ -463,7 +525,6 @@
                     // Sequenza completata correttamente
                     this.score++;
                     this.updateScore();
-                    this.updateStatus(`Ottimo! Livello ${this.score + 1}`, 'success');
                     
                     setTimeout(() => {
                         this.addToSequence();
@@ -473,8 +534,8 @@
             
             gameOver() {
                 this.isPlaying = false;
+                this.setGameState('game-over');
                 this.playErrorSound();
-                this.updateStatus(`Game Over! Punteggio finale: ${this.score}`, 'game-over');
                 this.disableButtons();
                 
                 // Animazione di game over
@@ -484,6 +545,11 @@
                         button.style.filter = '';
                     }, 500);
                 });
+                
+                // Torna allo stato waiting dopo 3 secondi
+                setTimeout(() => {
+                    this.setGameState('waiting');
+                }, 3000);
             }
             
             playErrorSound() {
@@ -507,11 +573,6 @@
             
             updateScore() {
                 this.scoreDisplay.textContent = this.score;
-            }
-            
-            updateStatus(message, className = '') {
-                this.statusDisplay.textContent = message;
-                this.statusDisplay.className = 'status ' + className;
             }
             
             enableButtons() {
